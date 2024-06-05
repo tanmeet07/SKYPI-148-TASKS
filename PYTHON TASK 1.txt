@@ -1,0 +1,15 @@
+subjects = ["I", "you"]
+verbs = ["play", "love"]
+objects = ["cricket", "ludo"]
+
+sentences = []
+
+for subject in subjects:
+    for verb in verbs:
+        for obj in objects:
+            sentence = f"{subject} {verb} {obj}."
+            sentences.append(sentence)
+
+# Print all generated sentences
+for sentence in sentences:
+    print(sentence)
