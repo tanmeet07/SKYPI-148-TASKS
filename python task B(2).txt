@@ -1,0 +1,39 @@
+def calculate_flames(name1, name2):
+    # Remove common letters from both names
+    for i in name1:
+        if i in name2:
+            name1 = name1.replace(i, '', 1)
+            name2 = name2.replace(i, '', 1)
+
+    # Calculate the count of remaining letters
+    count = len(name1) + len(name2)
+
+    # Use the count to determine the FLAMES result
+    flames = ['F', 'L', 'A', 'M', 'E', 'S']
+    index = count % 6
+    result = flames[index - 1]
+
+    # Return the FLAMES result
+    return result
+
+def main():
+    name1 = input("Enter the first name: ").lower()
+    name2 = input("Enter the second name: ").lower()
+
+    result = calculate_flames(name1, name2)
+
+    if result == 'F':
+        print("Friendship")
+    elif result == 'L':
+        print("Love")
+    elif result == 'A':
+        print("Affection")
+    elif result == 'M':
+        print("Marriage")
+    elif result == 'E':
+        print("Enemy")
+    elif result == 'S':
+        print("Sister")
+
+if __name__ == "__main__":
+    main()
