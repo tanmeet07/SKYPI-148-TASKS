@@ -1,0 +1,9 @@
+import demoji
+
+# Sample text with emojis
+text = "Hello 👋, how are you? 😊"
+
+# Replace emojis with their descriptions
+text_without_emojis = demoji.replace_with_desc(text)
+
+print(text_without_emojis)
