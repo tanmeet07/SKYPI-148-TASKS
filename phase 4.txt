@@ -1,0 +1,66 @@
+import curses
+
+# Set up the screen
+stdscr = curses.initscr()
+curses.curs_set(0)
+curses.start_color()
+curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+stdscr.timeout(100)
+sh, sw = stdscr.getmaxyx()
+w = curses.newwin(sh, sw, 0, 0)
+w.keypad(1)
+w.timeout(100)
+
+# Define the board
+board = [[' ' for _ in range(3)] for _ in range(3)]
+
+# Define the players
+players = ['X', 'O']
+current_player = 0
+
+# Define a function to draw the board
+def draw_board():
+    w.clear()
+    w.bkgd(' ', curses.color_pair(1))
+    for i in range(3):
+        for j in range(3):
+            if (i + j) % 2 == 0:
+                color = curses.color_pair(1)
+            else:
+                color = curses.A_NORMAL
+            w.addstr(i * 2 + 1, j * 4 + 1, board[i][j], color)
+    w.refresh()
+
+# Define a function to handle user input
+def handle_input():
+    global board, current_player
+    key = w.getch()
+    if key == curses.KEY_DOWN and current_player < 8:
+        i = 2
+        j = board[i][0] != ' ' and board[i][1] != ' ' and board[i][2] != ' ' and 0 or \
+            board[i][0] == ' ' and 0 or \
+            board[i][1] == ' ' and 1 or \
+            board[i][2] == ' ' and 2
+        if board[i][j] == ' ':
+            board[i][j] = players[current_player]
+            current_player = (current_player + 1) % 2
+    elif key == curses.KEY_UP and current_player > 0:
+        current_player -= 1
+
+# Main game loop
+while True:
+    draw_board()
+    handle_input()
+    # Check for a winner
+    for i in range(3):
+        if board[i][0] == board[i][1] == board[i][2] != ' ':
+            print(f'Player {players[current_player]} wins!')
+            break
+        if board[0][i] == board[1][i] == board[2][i] != ' ':
+            print(f'Player {players[current_player]} wins!')
+            break
+    if i == 2:
+        # Check for a tie
+        if ' ' not in ''.join(str(cell) for row in board for cell in row):
+            print('It\'s a tie!')
+            break
